@@ -71,11 +71,6 @@ export function PizzaValor({ precoMedio }: Readonly<PrecoMedioProps>) {
               <span className="font-bold text-white">R$ {precoMedio.gasolinaExterno.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}/L</span>
             </div>
           )}
-          <hr className="border-slate-800 my-1" />
-          <div className="flex justify-between text-[11px] text-green-400 mt-1">
-            <span>TOTAL GERAL</span>
-            <span className="font-bold">R$ {totalGeral.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-          </div>
         </div>
       </div>
     </div>
