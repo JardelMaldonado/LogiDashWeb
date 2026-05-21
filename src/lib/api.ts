@@ -25,7 +25,7 @@ api.interceptors.response.use(
 );
 
 export const login = async (email: string, senha: string) => {
-  const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, { email, senha });
+  const response = await api.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, { email, senha });
   return response.data;
 };
 
