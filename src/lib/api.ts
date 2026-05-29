@@ -2,9 +2,10 @@ import axios from 'axios';
 import { UsuarioRequest, UsuarioResponse, DashboardData } from '../types/index'; 
 
 export const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: `${process.env.NEXT_PUBLIC_API_URL}/api/v1`,
   withCredentials: true,
 });
+
 
 api.interceptors.response.use(
   (response) => response,
@@ -17,12 +18,16 @@ api.interceptors.response.use(
 );
 
 export const login = async (email: string, senha: string) => {
-  const response = await api.post('/auth/login', { email, senha });
+  const response = await axios.post('/api/auth/login', { email, senha }, {
+    withCredentials: true,
+  });
   return response.data;
 };
 
 export const logout = async () => {
-  await api.post('/auth/logout');
+  await axios.post('/api/auth/logout', {}, {
+    withCredentials: true,
+  });
   globalThis.location.href = '/login';
 };
 
@@ -46,7 +51,7 @@ export const alterarStatusUsuario = async (id: number): Promise<UsuarioResponse>
   return response.data;
 };
 
-export const fetchDashboard = async ( dataInicial: string, dataFinal: string, placa?: string, motorista?: string): Promise<DashboardData> => {
+export const fetchDashboard = async (dataInicial: string, dataFinal: string, placa?: string, motorista?: string): Promise<DashboardData> => {
   const response = await api.get('/dashboard', {
     params: { dataInicial, dataFinal, placa, motorista }
   });
