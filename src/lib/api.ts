@@ -3,21 +3,13 @@ import { UsuarioRequest, UsuarioResponse, DashboardData } from '../types/index';
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
-});
-
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
+  withCredentials: true,
 });
 
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem('token');
       globalThis.location.href = '/login';
     }
     return Promise.reject(error);
@@ -25,8 +17,13 @@ api.interceptors.response.use(
 );
 
 export const login = async (email: string, senha: string) => {
-  const response = await api.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, { email, senha });
+  const response = await api.post('/auth/login', { email, senha });
   return response.data;
+};
+
+export const logout = async () => {
+  await api.post('/auth/logout');
+  globalThis.location.href = '/login';
 };
 
 export const listarUsuarios = async (): Promise<UsuarioResponse[]> => {

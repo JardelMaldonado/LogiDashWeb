@@ -18,8 +18,6 @@ export default function Login() {
     setErro("");
     try {
       const data = await login(email, senha);
-      localStorage.setItem('token', data.token);
-      document.cookie = `token=${data.token}; path=/; max-age=86400`;
       localStorage.setItem('nome', data.nome);
       localStorage.setItem('role', data.role);
       router.push("/");

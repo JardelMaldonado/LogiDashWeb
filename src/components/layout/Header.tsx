@@ -1,12 +1,12 @@
 "use client";
 
 import { Calendar, Search, User, X, LogOut, SlidersHorizontal } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { DayPicker, DateRange } from "react-day-picker";
 import { ptBR } from "react-day-picker/locale";
 import "react-day-picker/style.css";
 import { HeaderProps } from "../../types/layout/header";
+import { logout } from "@/src/lib/api";
 
 export function Header({
   placas, motoristas, filtroPlaca, filtroMotorista,
@@ -25,7 +25,6 @@ export function Header({
   const [placaLocal, setPlacaLocal] = useState(filtroPlaca);
   const [motoristaLocal, setMotoristaLocal] = useState(filtroMotorista);
 
-  const router = useRouter();
   const userMenuRef = useRef<HTMLDivElement>(null);
   const calendarioRef = useRef<HTMLDivElement>(null);
   const hoje = new Date();
@@ -70,13 +69,11 @@ export function Header({
     onLimpar();
   }
 
-  function handleLogout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("nome");
-    localStorage.removeItem("role");
-    document.cookie = "token=; path=/; max-age=0";
-    router.push("/login");
-  }
+  async function handleLogout() {
+  await logout();
+  localStorage.removeItem("nome");
+  localStorage.removeItem("role");
+}
 
   const selectClass = "text-xs border border-slate-700 rounded-lg px-3 py-1.5 bg-[#1E293B] text-slate-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-sky-500/40 focus:border-sky-500 transition-all hover:bg-slate-800";
   const selectClassMobile = "w-full text-xs border border-slate-700 rounded-lg px-3 py-2 bg-[#1E293B] text-slate-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-sky-500/40 focus:border-sky-500 transition-all";
