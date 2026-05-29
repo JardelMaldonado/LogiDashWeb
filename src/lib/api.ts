@@ -2,7 +2,7 @@ import axios from 'axios';
 import { UsuarioRequest, UsuarioResponse, DashboardData } from '../types/index'; 
 
 export const api = axios.create({
-  baseURL: `${process.env.NEXT_PUBLIC_API_URL}/api/v1`,
+  baseURL: '/backend',
   withCredentials: true,
 });
 
